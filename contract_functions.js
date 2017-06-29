@@ -26,6 +26,10 @@ window.addEventListener('load', function(){
     playerTwoReveal();
     determineWinner();
     returnFunds();
+
+    displayBet();
+    displayPlayerOne();
+    displayPlayerTwo();
   }
 })
 
@@ -153,6 +157,40 @@ returnFunds = function(){
       console.log('RETURN FUNDS: ', response);
     }else{
       console.log('ERROR: ', e);
+    }
+  })
+}
+
+
+displayBet = function(){
+  rockPaperScissors.bet.call(function(e,response){
+    if(response){ 
+      console.log('bet_span: ', response.toNumber())
+      document.getElementById('bet_amount').innerHTML = response.toNumber() / 1000000000000000000;
+    }else{
+      console.log(e)
+    }
+  })
+}
+
+displayPlayerOne = function(){
+  rockPaperScissors.player1.call(function(e,response){
+    if(response){ 
+      console.log('display p1: ', response[0])
+      document.getElementById('player_1_address').innerHTML = response[0];
+    }else{
+      console.log(e)
+    }
+  })
+}
+
+displayPlayerTwo = function(){
+  rockPaperScissors.player2.call(function(e,response){
+    if(response){ 
+      console.log('display p2: ', response[0])
+      document.getElementById('player_2_address').innerHTML = response[0];
+    }else{
+      console.log(e)
     }
   })
 }
