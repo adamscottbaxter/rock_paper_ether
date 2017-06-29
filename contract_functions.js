@@ -49,7 +49,9 @@ currentStage = function(){
   rockPaperScissors.stage.call(function(e, response){
     if(response){
       console.log('STAGE: ', response.toNumber());
-      response.toNumber();
+       var stageValue = response.toNumber();
+       var currentStageDiv = document.querySelectorAll("[data-stage-display='" + stageValue + "']")[0];
+       currentStageDiv.classList.remove('hidden');
     }else{
       console.log('ERROR: ', e)
     }
