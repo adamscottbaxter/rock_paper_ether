@@ -15,6 +15,32 @@
 			<div><span>Player Two: </span><span id="player_2_address"></span></div>
 			<div><span>Bet Amount: </span><span id="bet_amount"></span> ETH</div>
 		</div>
+		<div data-stage-display="0">
+			<h2>Player One's Turn to Throw</h2>
+			<p>Hash together your throw (1, 2, or 3) and a secret number and enter it below.</p>
+			<span>Enter Commit Hash: </span><input id="player_1_commit">
+		</div>
+		<div data-stage-display="1">
+			<h2>Player Two's Turn to Throw</h2>
+			<p>Hash together your throw (1, 2, or 3) and a secret number and enter it below.</p>
+			<span>Enter Commit Hash: </span><input id="player_2_commit">
+		</div>
+		<div data-stage-display="2">
+			<h2>Player One's Reveal</h2>
+			<p>Enter your Throw and Secret integers to verify throw.</p>
+			<span>Throw Integer: </span><input id="player_1_throw">
+			<span>Secret Integer: </span><input id="player_1_secret">
+		</div>
+		<div data-stage-display="3">
+			<h2>Player Two's Reveal</h2>
+			<p>Enter your Throw and Secret integers to verify throw.</p>
+			<span>Throw Integer: </span><input id="player_2_throw">
+			<span>Secret Integer: </span><input id="player_2_secret">
+		</div>
+		<div data-stage-display="4">
+			<h2>Winner</h2>
+			<p id="winner_address"></p>
+		</div>
 	</div>
 </body>
 </html>
