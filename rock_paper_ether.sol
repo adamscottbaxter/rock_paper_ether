@@ -21,10 +21,11 @@ contract RockPaperScissors {
         stage = Stages(uint(stage) + 1);
     }
     
-    Player player1;
-    Player player2;
-    uint bet;
+    Player public player1;
+    Player public player2;
+    uint public bet = 0;
     uint public resetTime;
+    address public winner;
     
     struct Player{
         address addy;
@@ -81,13 +82,14 @@ contract RockPaperScissors {
             player2.gameThrow = gameThrow;
             player2.revealTime = now;
             nextStage();
+            determineWinner();
         } else {
             throw;
         }
     }
 
     function determineWinner() atStage(Stages.determineWinner) {
-        address winner;
+        
         if(player1.gameThrow == 1 && player2.gameThrow == 2) {
             winner = player2.addy;
         } else if(player1.gameThrow == 2 && player2.gameThrow == 3) {
@@ -100,9 +102,8 @@ contract RockPaperScissors {
         
         if(winner != 0x0) {
             winner.transfer(this.balance);
-            reset();
         } else { //tie
-            splitFunds();
+            reset();
         }
     }
     
