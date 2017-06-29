@@ -130,7 +130,7 @@ contract RockPaperScissors {
         }
     }
     
-    function splitFunds(){
+    function splitFunds() private{
         player1.addy.transfer(this.balance/2);
         player2.addy.transfer(this.balance/2);
     }
