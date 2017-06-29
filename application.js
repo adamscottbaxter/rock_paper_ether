@@ -157,3 +157,10 @@ returnFunds = function(){
   })
 }
 
+//TODO split this into another js file
+(function pollStage(){
+   setTimeout(function(){
+    currentStage();
+    pollStage();
+  }, 5000);
+})();
