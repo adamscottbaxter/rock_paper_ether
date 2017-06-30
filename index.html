@@ -20,7 +20,7 @@
 		</div>
 		<div class="hidden" data-stage-display="0">
 			<h2>Player One's Turn to Throw</h2>
-			<p>Select your throw and enter a secret string below.</p>
+			<p>Select your throw and enter a secret below.</p>
 			<form id="player_1_gamethrow">
 			  <input type="radio" name="p_1_radio" value="rock"> Rock<br>
 			  <input type="radio" name="p_1_radio" value="paper"> Paper<br>
@@ -31,7 +31,7 @@
 		</div>
 		<div class="hidden" data-stage-display="1">
 			<h2>Player Two's Turn to Throw</h2>
-			<p>Select your throw and enter a secret string below.</p>
+			<p>Select your throw and enter a secret below.</p>
 			<form id="player_2_gamethrow">
 			  <input type="radio" name="p_2_radio" value="rock"> Rock<br>
 			  <input type="radio" name="p_2_radio" value="paper"> Paper<br>
@@ -42,17 +42,25 @@
 		</div>
 		<div class="hidden" data-stage-display="2">
 			<h2>Player One's Reveal</h2>
-			<p>Enter your Throw and Secret integers to verify throw.</p>
-			<span>Throw Integer: </span><input id="player_1_gamethrow">
-			<span>Secret Integer: </span><input id="player_1_secret">
-			<button id="p_1_reveal" onclick="playerOneReveal()">Reveal!</button>
+			<p>Select enter your previous throw secret.</p>
+			<form id="player_1__reveal_gamethrow">
+			  <input type="radio" name="p_1_reveal_radio" value="rock"> Rock<br>
+			  <input type="radio" name="p_1_reveal_radio" value="paper"> Paper<br>
+			  <input type="radio" name="p_1_reveal_radio" value="scissors"> Scissors
+			</form>
+			<span>Enter Secret: </span><input id="player_1_reveal_secret">
+			<button onclick="submitReveal1()">Reveal!</button>
 		</div>
 		<div class="hidden" data-stage-display="3">
 			<h2>Player Two's Reveal</h2>
-			<p>Enter your Throw and Secret integers to verify throw.</p>
-			<span>Throw Integer: </span><input id="player_2_gamethrow">
-			<span>Secret Integer: </span><input id="player_2_secret">
-			<button id="p_2_reveal" onclick="playerTwoReveal()">Reveal!</button>
+			<p>Select enter your previous throw secret.</p>
+			<form id="player_2__reveal_gamethrow">
+			  <input type="radio" name="p_2_reveal_radio" value="rock"> Rock<br>
+			  <input type="radio" name="p_2_reveal_radio" value="paper"> Paper<br>
+			  <input type="radio" name="p_2_reveal_radio" value="scissors"> Scissors
+			</form>
+			<span>Enter Secret: </span><input id="player_2_reveal_secret">
+			<button onclick="submitReveal2()">Reveal!</button>
 		</div>
 		<div class="hidden" data-stage-display="4">
 			<h2>Winner</h2>
