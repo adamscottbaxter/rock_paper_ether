@@ -1,0 +1,1 @@
+var buffer = require('buffer');
