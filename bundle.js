@@ -1,5 +1,293 @@
+console.log('bundle js buffer');
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var buffer = require('buffer');
+Buffer = require('buffer').Buffer;
+
+window.addEventListener('load', function(){
+  if(typeof web3 === 'undefined'){
+    web3 = new Web3(new Web3.providers.HttpProvider('https://mainnet.infura.io'));
+    // alert('Please Download Metamask')
+    //disable everything
+  }else{
+    
+
+    contractAddress = '0x333f3096a94b9d4ea6a3798993ad1fdf7f3de857';
+    abi = [{"constant":true,"inputs":[],"name":"bet","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"returnFunds","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"determineWinner","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"player2","outputs":[{"name":"addy","type":"address"},{"name":"commitHash","type":"bytes32"},{"name":"commitTime","type":"uint256"},{"name":"gameThrow","type":"uint256"},{"name":"revealTime","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"resetTime","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"commitHash","type":"bytes32"}],"name":"playerOneCommit","outputs":[],"payable":true,"type":"function"},{"constant":false,"inputs":[{"name":"commitHash","type":"bytes32"}],"name":"playerTwoCommit","outputs":[],"payable":true,"type":"function"},{"constant":false,"inputs":[{"name":"gameThrow","type":"uint256"},{"name":"secret","type":"uint256"}],"name":"playerOneReveal","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"stage","outputs":[{"name":"","type":"uint8"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"player1","outputs":[{"name":"addy","type":"address"},{"name":"commitHash","type":"bytes32"},{"name":"commitTime","type":"uint256"},{"name":"gameThrow","type":"uint256"},{"name":"revealTime","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"winner","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"gameThrow","type":"uint256"},{"name":"secret","type":"uint256"}],"name":"playerTwoReveal","outputs":[],"payable":false,"type":"function"},{"inputs":[{"name":"_player1","type":"address"},{"name":"_player2","type":"address"},{"name":"_bet","type":"uint256"}],"payable":false,"type":"constructor"}];
+    getCoinbase();
+
+    console.log('buffer: ', Buffer);
+    console.log('keccak:',keccak_256(new Buffer("0001","hex")))
+
+    THROWS = {
+      "rock": new Buffer("0000000000000000000000000000000000000000000000000000000000000001","hex"),
+      "paper": new Buffer("0000000000000000000000000000000000000000000000000000000000000002","hex"),
+      "scissors": new Buffer("0000000000000000000000000000000000000000000000000000000000000003","hex")
+    }
+
+    // t = new Buffer("0000000000000000000000000000000000000000000000000000000000000001","hex");
+    // s = new Buffer("5064b09d713b0348f248cf83fedef649ecdc1121d0913a67adb84438d1cb8422","hex");
+    // myCommit = keccak_256(Buffer.concat([t,s]))
+    submitCommit1 = function(){
+      var t =  THROWS[document.getElementById('player_1_gamethrow').value];
+      var s =  createSecret(document.getElementById('player_1_secret').value);
+      var commitHash = createCommitHash(t,s)
+      rockPaperScissors.playerOneCommit(commitHash, {from: coinbase, value:"10000000000000000"}, function(e,r){
+        console.log(e,r);
+      })
+
+    }
+    submitReveal1 = function(){
+      var t =  THROWS[document.getElementById('player_1_gamethrow').value];
+      var s =  createSecret(document.getElementById('player_1_secret').value);
+      var commitHash = createCommitHash(t,s)
+      rockPaperScissors.playerOneReveal(t,s, {from: coinbase}, function(e,r){
+        console.log("playerOneReveal: ", e,r);
+      })
+
+    }
+
+    createCommitHash = function(t,s){
+      return keccak_256(Buffer.concat([t,s]));
+    }
+
+    createSecret = function(inputString){
+      var secretHash = keccak_256(inputString);
+      return new Buffer(secretHash,"hex")
+    }
+
+    keccak_256(new Buffer("0000000000000000000000000000000000000000000000000000000000000001","hex"))
+
+    rockPaperScissors = web3.eth.contract(abi).at(contractAddress);
+
+    betValue();
+    currentStage();
+    winner();
+    resetTime();
+    playerOneInfo();
+    playerTwoInfo();
+    // playerOneCommit();
+    // playerTwoCommit();
+    // playerOneReveal();
+    // playerTwoReveal();
+    // determineWinner();
+    // returnFunds();
+
+    displayBet();
+    displayPlayerOne();
+    displayPlayerTwo();
+  }
+})
+
+coinbase = "";
+getCoinbase = function(){
+  web3.eth.getAccounts(function(e, accounts){
+      if(accounts && accounts.length > 0){
+        coinbase = accounts[0];
+      }else{
+        alert("Please open metamask")
+      }
+    })
+}
+
+betValue = function(){
+  rockPaperScissors.bet.call(function(e, response){
+    if(response){
+      console.log('BET: ', response.toNumber() / 1000000000000000000);
+      bet = response.toNumber() / 1000000000000000000;
+    }else{
+      console.log('ERROR: ', e);
+    }
+  })
+}
+
+currentStage = function(){
+  rockPaperScissors.stage.call(function(e, response){
+    if(response){
+      console.log('STAGE: ', response.toNumber());
+       var stageValue = response.toNumber();
+       var currentStageDiv = document.querySelectorAll("[data-stage-display='" + stageValue + "']")[0];
+       currentStageDiv.classList.remove('hidden');
+    }else{
+      console.log('ERROR: ', e)
+    }
+  })
+}
+
+winner = function(){
+  rockPaperScissors.winner.call(function(e, response){
+    if(response){
+      console.log('WINNER: ', response);
+      response;
+    }else{
+      console.log('ERROR: ', e)
+    }
+  })
+}
+
+resetTime = function(){
+  rockPaperScissors.resetTime.call(function(e, response){
+    if(response){
+      console.log('RESET TIME: ', response);
+      response; // TODO convert to time
+    }else{
+      console.log('ERROR: ', e)
+    }
+  })
+}
+
+playerOneInfo = function(){
+  rockPaperScissors.player1.call(function(e, response){
+    if(response){
+      console.log('PLAYER_1: ', response);
+      response;
+    }else{
+      console.log('ERROR: ', e)
+    }
+  })
+}
+
+playerTwoInfo = function(){
+  rockPaperScissors.player2.call(function(e, response){
+    if(response){
+      console.log('PLAYER_2: ', response);
+      response;
+    }else{
+      console.log('ERROR: ', e);
+    }
+  })
+}
+
+
+playerOneCommit = function(){
+	web3.eth.getAccounts(function(e, accounts){
+	    if(accounts && accounts.length > 0){
+	      console.log('ACCOUNT: ', accounts[0])
+	      var coinbase = accounts[0];
+	      console.log('COINBASE: ', coinbase);
+	      var playerOneCommitHash = document.getElementById('player_1_commit').value;
+
+	      rockPaperScissors.playerOneCommit.sendTransaction(playerOneCommitHash, {from: coinbase, value: "10000000000000000"}, function(e, response){
+	        if(response){
+	          console.log('PLAYER_1 COMMIT: ', response);
+	          console.log('player 1 info: ', playerOneInfo());
+	        }else{
+	          console.log('ERROR: ', e);
+	        }
+	      })
+
+	    }else{
+	      console.log('get accounts error: ', e)
+	      alert("Please open metamask")
+	    }
+	  })
+}
+
+playerTwoCommit = function(){
+	web3.eth.getAccounts(function(e, accounts){
+	    if(accounts && accounts.length > 0){
+	      console.log('ACCOUNT: ', accounts[0])
+	      var coinbase = accounts[0];
+	      console.log('COINBASE: ', coinbase);
+	      var playerTwoCommitHash = document.getElementById('player_2_commit').value;
+
+	      rockPaperScissors.playerTwoCommit.sendTransaction(playerTwoCommitHash, {from: coinbase, value: "10000000000000000"}, function(e, response){
+	        if(response){
+	          console.log('PLAYER_2 COMMIT: ', response);
+	          console.log('player 2 info: ', playerOneInfo());
+	        }else{
+	          console.log('ERROR: ', e);
+	        }
+	      })
+
+	    }else{
+	      console.log('get accounts error: ', e)
+	      alert("Please open metamask")
+	    }
+	  })
+}
+
+playerOneReveal = function(){
+	var playerOneGamethrow = document.getElementById('player_1_gamethrow').value;
+	var playerOneSecret = document.getElementById('player_1_secret').value;
+
+
+	console.log(playerOneGamethrow.constructor);
+	console.log(Number(playerOneGamethrow).constructor);
+  rockPaperScissors.playerOneReveal.sendTransaction(Number(playerOneGamethrow), Number(playerOneSecret), function(e, response){
+    if(response){
+      console.log('PLAYER_1 Reveal: ', response);
+    }else{
+      console.log('ERROR: ', e);
+    }
+  })
+}
+
+playerTwoReveal = function(){
+	var playerTwoGamethrow = document.getElementById('player_2_gamethrow').value;
+	var playerTwoSecret = document.getElementById('player_2_secret').value;
+
+  rockPaperScissors.playerTwoReveal.call(playerTwoGamethrow, playerTwoSecret, function(e, response){
+    if(response){
+      console.log('PLAYER_2 Reveal: ', response);
+    }else{
+      console.log('ERROR: ', e);
+    }
+  })
+}
+
+determineWinner = function(){
+  rockPaperScissors.determineWinner.call(function(e, response){
+    if(response){
+      console.log('DETERMINE WINNER: ', response);
+    }else{
+      console.log('ERROR: ', e);
+    }
+  })
+}
+
+returnFunds = function(){
+  rockPaperScissors.returnFunds.call(function(e, response){
+    if(response){
+      console.log('RETURN FUNDS: ', response);
+    }else{
+      console.log('ERROR: ', e);
+    }
+  })
+}
+
+
+displayBet = function(){
+  rockPaperScissors.bet.call(function(e,response){
+    if(response){ 
+      console.log('bet_span: ', response.toNumber())
+      document.getElementById('bet_amount').innerHTML = response.toNumber() / 1000000000000000000;
+    }else{
+      console.log(e)
+    }
+  })
+}
+
+displayPlayerOne = function(){
+  rockPaperScissors.player1.call(function(e,response){
+    if(response){ 
+      console.log('display p1: ', response[0])
+      document.getElementById('player_1_address').innerHTML = response[0];
+    }else{
+      console.log(e)
+    }
+  })
+}
+
+displayPlayerTwo = function(){
+  rockPaperScissors.player2.call(function(e,response){
+    if(response){ 
+      console.log('display p2: ', response[0])
+      document.getElementById('player_2_address').innerHTML = response[0];
+    }else{
+      console.log(e)
+    }
+  })
+}
+// sha3(<buffer 00000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000003658264756>)
 },{"buffer":3}],2:[function(require,module,exports){
 'use strict'
 
