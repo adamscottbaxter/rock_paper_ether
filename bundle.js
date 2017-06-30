@@ -30,9 +30,22 @@ submitCommit1 = function(){
       console.log(e,response);                                                   
     })
   }
-  
-
 }
+
+
+submitCommit2 = function(){
+  var form_elements = document.getElementById('player_2_gamethrow').elements;
+  var selectedThrow = form_elements['p_2_radio'].value;
+  var t =  THROWS[selectedThrow];
+  var s =  createSecret(document.getElementById('player_2_secret').value);
+  if(t){
+    var p2Commit = keccak_256(Buffer.concat([t,s]))
+    rockPaperScissors.playerTwoCommit(p2Commit, {from: coinbase, value:"1000000000000000"}, function(e,response){
+      console.log(e,response);                                                   
+    })
+  }
+}
+
 submitReveal1 = function(){
   var t =  THROWS[document.getElementById('player_1_gamethrow').value];
   var s =  createSecret(document.getElementById('player_1_secret').value);

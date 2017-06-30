@@ -31,11 +31,16 @@
 		</div>
 		<div class="hidden" data-stage-display="1">
 			<h2>Player Two's Turn to Throw</h2>
-			<p><a href="https://emn178.github.io/online-tools/keccak_256.html" target="_blank">Hash </a> your throw (1, 2, or 3) and a secret number together and enter it below.</p>
-			<span>Enter Commit Hash: </span><input id="player_2_commit">
-			<button id="p_2_throw_button" onclick="playerTwoCommit()">Commit!</button>
+			<p>Select your throw and enter a secret string below.</p>
+			<form id="player_2_gamethrow">
+			  <input type="radio" name="p_2_radio" value="rock"> Rock<br>
+			  <input type="radio" name="p_2_radio" value="paper"> Paper<br>
+			  <input type="radio" name="p_2_radio" value="scissors"> Scissors
+			</form>
+			<span>Enter Secret: </span><input id="player_2_secret">
+			<button onclick="submitCommit2()">Commit!</button>
 		</div>
-		<!-- <div class="hidden" data-stage-display="2">
+		<div class="hidden" data-stage-display="2">
 			<h2>Player One's Reveal</h2>
 			<p>Enter your Throw and Secret integers to verify throw.</p>
 			<span>Throw Integer: </span><input id="player_1_gamethrow">
@@ -48,7 +53,7 @@
 			<span>Throw Integer: </span><input id="player_2_gamethrow">
 			<span>Secret Integer: </span><input id="player_2_secret">
 			<button id="p_2_reveal" onclick="playerTwoReveal()">Reveal!</button>
-		</div> -->
+		</div>
 		<div class="hidden" data-stage-display="4">
 			<h2>Winner</h2>
 			<p id="winner_address"></p>
