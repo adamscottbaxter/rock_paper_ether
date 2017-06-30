@@ -100,7 +100,9 @@ currentStage = function(){
       console.log('STAGE: ', response.toNumber());
        var stageValue = response.toNumber();
        var currentStageDiv = document.querySelectorAll("[data-stage-display='" + stageValue + "']")[0];
+       var previousStageDiv = document.querySelectorAll("[data-stage-display='" + stageValue - 1 + "']")[0];
        currentStageDiv.classList.remove('hidden');
+       previousStageDiv.classList.add('hidden');
     }else{
       console.log('ERROR: ', e)
     }
