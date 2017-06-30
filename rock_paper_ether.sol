@@ -109,22 +109,22 @@ contract RockPaperScissors {
     
     function returnFunds(){
         if(stage == Stages.playerOneThrow){
-            if(player1.commitHash == 0 && resetTime + 3600 > now){
+            if(player1.commitHash == 0 && now > resetTime + 3600){
                 splitFunds();
             }
         }
         if(stage == Stages.playerTwoThrow){
-            if(player1.commitTime + 3600 > now){
+            if(now > player1.commitTime + 3600){
                 player1.addy.transfer(this.balance);
             }
         }
         if(stage == Stages.playerOneReveal){
-            if(player2.commitTime + 3600 > now){
+            if(now > player2.commitTime + 3600){
                 player2.addy.transfer(this.balance); // or splitFunds() ?
             }
         }
         if(stage == Stages.playerTwoReveal){
-            if(player1.revealTime + 3600 > now){
+            if(now > player1.revealTime + 3600){
                 player1.addy.transfer(this.balance);
             }
         }
