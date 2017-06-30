@@ -31,7 +31,7 @@ contract RockPaperScissors {
         address addy;
         bytes32 commitHash;
         uint commitTime;
-        uint gameThrow;
+        bytes32 gameThrow;
         uint revealTime;
     }
     
@@ -65,7 +65,7 @@ contract RockPaperScissors {
     }
     
 
-    function playerOneReveal(uint gameThrow, uint secret) atStage(Stages.playerOneReveal) {
+    function playerOneReveal(bytes32 gameThrow, bytes32 secret) atStage(Stages.playerOneReveal) {
         bytes32 commitHash = sha3(gameThrow, secret);
         if(commitHash == player1.commitHash) {
             player1.gameThrow = gameThrow;
@@ -76,7 +76,7 @@ contract RockPaperScissors {
         }
     }
     
-    function playerTwoReveal(uint gameThrow, uint secret) atStage(Stages.playerTwoReveal) {
+    function playerTwoReveal(bytes32 gameThrow, bytes32 secret) atStage(Stages.playerTwoReveal) {
         bytes32 commitHash = sha3(gameThrow, secret);
         if(commitHash == player2.commitHash) {
             player2.gameThrow = gameThrow;
@@ -133,6 +133,7 @@ contract RockPaperScissors {
     function splitFunds() private{
         player1.addy.transfer(this.balance/2);
         player2.addy.transfer(this.balance/2);
+        reset();
     }
     
     function reset() private{
