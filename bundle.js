@@ -11,72 +11,55 @@ window.addEventListener('load', function(){
     contractAddress = '0xa4194aa99e6a3b3b630def8c5e6c15cdec9ec42c';
     abi = [{"constant":true,"inputs":[],"name":"bet","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"returnFunds","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"determineWinner","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"player2","outputs":[{"name":"addy","type":"address"},{"name":"commitHash","type":"bytes32"},{"name":"commitTime","type":"uint256"},{"name":"gameThrow","type":"uint256"},{"name":"revealTime","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"resetTime","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"commitHash","type":"bytes32"}],"name":"playerOneCommit","outputs":[],"payable":true,"type":"function"},{"constant":false,"inputs":[{"name":"commitHash","type":"bytes32"}],"name":"playerTwoCommit","outputs":[],"payable":true,"type":"function"},{"constant":false,"inputs":[{"name":"gameThrow","type":"uint256"},{"name":"secret","type":"uint256"}],"name":"playerOneReveal","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"stage","outputs":[{"name":"","type":"uint8"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"player1","outputs":[{"name":"addy","type":"address"},{"name":"commitHash","type":"bytes32"},{"name":"commitTime","type":"uint256"},{"name":"gameThrow","type":"uint256"},{"name":"revealTime","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"winner","outputs":[{"name":"","type":"address"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"gameThrow","type":"uint256"},{"name":"secret","type":"uint256"}],"name":"playerTwoReveal","outputs":[],"payable":false,"type":"function"},{"inputs":[{"name":"_player1","type":"address"},{"name":"_player2","type":"address"},{"name":"_bet","type":"uint256"}],"payable":false,"type":"constructor"}];
 
-    getCoinbase();
-
-
-    THROWS = {
-      "rock": new Buffer("0000000000000000000000000000000000000000000000000000000000000001","hex"),
-      "paper": new Buffer("0000000000000000000000000000000000000000000000000000000000000002","hex"),
-      "scissors": new Buffer("0000000000000000000000000000000000000000000000000000000000000003","hex")
-    }
-
-    submitCommit1 = function(){
-      var form_elements = document.getElementById('player_1_gamethrow').elements;
-      var selectedThrow = form_elements['p_1_radio'].value;
-      var t =  THROWS[selectedThrow];
-      var s =  createSecret(document.getElementById('player_1_secret').value);
-      if(t){
-        var p1Commit = keccak_256(Buffer.concat([t,s]))
-        rockPaperScissors.playerOneCommit(p1Commit, {from: coinbase, value:"1000000000000000"}, function(e,response){
-          console.log(e,response);                                                   
-        })
-      }
-      
-
-    }
-    submitReveal1 = function(){
-      var t =  THROWS[document.getElementById('player_1_gamethrow').value];
-      var s =  createSecret(document.getElementById('player_1_secret').value);
-      var commitHash = createCommitHash(t,s)
-      rockPaperScissors.playerOneReveal(t,s, {from: coinbase}, function(e,r){
-        console.log("playerOneReveal: ", e,r);
-      })
-
-    }
-
-    createCommitHash = function(t,s){
-      return keccak_256(Buffer.concat([t,s]));
-    }
-
-    createSecret = function(inputString){
-      var secretHash = keccak_256(inputString);
-      return new Buffer(secretHash,"hex")
-    }
-
-    keccak_256(new Buffer("0000000000000000000000000000000000000000000000000000000000000001","hex"))
-
     rockPaperScissors = web3.eth.contract(abi).at(contractAddress);
 
     betValue();
     currentStage();
-    winner();
-    resetTime();
-    playerOneInfo();
-    playerTwoInfo();
-    // playerOneCommit();
-    // playerTwoCommit();
-    // playerOneReveal();
-    // playerTwoReveal();
-    // determineWinner();
-    // returnFunds();
-
-    displayBet();
-    displayPlayerOne();
-    displayPlayerTwo();
+    getCoinbase();
   }
 })
 
+submitCommit1 = function(){
+  var form_elements = document.getElementById('player_1_gamethrow').elements;
+  var selectedThrow = form_elements['p_1_radio'].value;
+  var t =  THROWS[selectedThrow];
+  var s =  createSecret(document.getElementById('player_1_secret').value);
+  if(t){
+    var p1Commit = keccak_256(Buffer.concat([t,s]))
+    rockPaperScissors.playerOneCommit(p1Commit, {from: coinbase, value:"1000000000000000"}, function(e,response){
+      console.log(e,response);                                                   
+    })
+  }
+  
+
+}
+submitReveal1 = function(){
+  var t =  THROWS[document.getElementById('player_1_gamethrow').value];
+  var s =  createSecret(document.getElementById('player_1_secret').value);
+  var commitHash = createCommitHash(t,s)
+  rockPaperScissors.playerOneReveal(t,s, {from: coinbase}, function(e,r){
+    console.log("playerOneReveal: ", e,r);
+  })
+
+}
+
+createCommitHash = function(t,s){
+  return keccak_256(Buffer.concat([t,s]));
+}
+
+createSecret = function(inputString){
+  var secretHash = keccak_256(inputString);
+  return new Buffer(secretHash,"hex")
+}
+
+THROWS = {
+  "rock": new Buffer("0000000000000000000000000000000000000000000000000000000000000001","hex"),
+  "paper": new Buffer("0000000000000000000000000000000000000000000000000000000000000002","hex"),
+  "scissors": new Buffer("0000000000000000000000000000000000000000000000000000000000000003","hex")
+}
+
 coinbase = "";
+
 getCoinbase = function(){
   web3.eth.getAccounts(function(e, accounts){
       if(accounts && accounts.length > 0){
