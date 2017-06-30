@@ -4,6 +4,7 @@
 	<title>Rock Paper Scissors</title>
 	<script type="text/javascript" src="application.js"></script>
 	<script type="text/javascript" src="contract_functions.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/js-sha3/0.6.0/sha3.min.js"></script>
 	<link rel="stylesheet" href="application.css">
 </head>
 <body>
@@ -16,7 +17,7 @@
 			<div><span>Player Two: </span><span id="player_2_address"></span></div>
 			<div><span>Bet Amount: </span><span id="bet_amount"></span> ETH</div>
 		</div>
-		<div class="hidden" data-stage-display="0">
+		<div class="" data-stage-display="0">
 			<h2>Player One's Turn to Throw</h2>
 			<p><a href="https://emn178.github.io/online-tools/keccak_256.html" target="_blank">Hash </a> your throw (1, 2, or 3) and a secret number together and enter it below.</p>
 			<span>Enter Commit Hash: </span><input id="player_1_commit">
@@ -31,14 +32,16 @@
 		<div class="hidden" data-stage-display="2">
 			<h2>Player One's Reveal</h2>
 			<p>Enter your Throw and Secret integers to verify throw.</p>
-			<span>Throw Integer: </span><input id="player_1_throw">
+			<span>Throw Integer: </span><input id="player_1_gamethrow">
 			<span>Secret Integer: </span><input id="player_1_secret">
+			<button id="p_1_reveal" onclick="playerOneReveal()">Reveal!</button>
 		</div>
 		<div class="hidden" data-stage-display="3">
 			<h2>Player Two's Reveal</h2>
 			<p>Enter your Throw and Secret integers to verify throw.</p>
-			<span>Throw Integer: </span><input id="player_2_throw">
+			<span>Throw Integer: </span><input id="player_2_gamethrow">
 			<span>Secret Integer: </span><input id="player_2_secret">
+			<button id="p_2_reveal" onclick="playerTwoReveal()">Reveal!</button>
 		</div>
 		<div class="hidden" data-stage-display="4">
 			<h2>Winner</h2>

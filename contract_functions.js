@@ -150,8 +150,12 @@ playerTwoCommit = function(){
 	  })
 }
 
-playerOneReveal = function(gameThrow, secret){
-  rockPaperScissors.playerOneReveal.call(gameThrow, secret, function(e, response){
+playerOneReveal = function(){
+	var playerOneGamethrow = document.getElementById('player_1_gamethrow').value;
+	var playerOneSecret = document.getElementById('player_1_secret').value;
+	console.log(playerOneGamethrow.constructor);
+	console.log(Number(playerOneGamethrow).constructor);
+  rockPaperScissors.playerOneReveal.sendTransaction(Number(playerOneGamethrow), Number(playerOneSecret), function(e, response){
     if(response){
       console.log('PLAYER_1 Reveal: ', response);
     }else{
@@ -160,8 +164,11 @@ playerOneReveal = function(gameThrow, secret){
   })
 }
 
-playerTwoReveal = function(gameThrow, secret){
-  rockPaperScissors.playerTwoReveal.call(gameThrow, secret, function(e, response){
+playerTwoReveal = function(){
+	var playerTwoGamethrow = document.getElementById('player_2_gamethrow').value;
+	var playerTwoSecret = document.getElementById('player_2_secret').value;
+
+  rockPaperScissors.playerTwoReveal.call(playerTwoGamethrow, playerTwoSecret, function(e, response){
     if(response){
       console.log('PLAYER_2 Reveal: ', response);
     }else{
@@ -223,3 +230,5 @@ displayPlayerTwo = function(){
     }
   })
 }
+Buffer
+// sha3(<buffer 00000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000003658264756>)
