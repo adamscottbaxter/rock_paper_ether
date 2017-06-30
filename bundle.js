@@ -168,11 +168,11 @@ currentStage = function(){
   })
 }
 
-winner = function(){
+displayWinner = function(){
   rockPaperScissors.winner.call(function(e, response){
     if(response){
       console.log('WINNER: ', response);
-      return response;
+      document.getElementById('winner_address').innerHTML = response[0];
     }else{
       console.log('ERROR: ', e)
     }
