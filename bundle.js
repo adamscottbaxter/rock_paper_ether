@@ -1,4 +1,3 @@
-console.log('bundle js buffer');
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 Buffer = require('buffer').Buffer;
 
@@ -14,8 +13,6 @@ window.addEventListener('load', function(){
 
     getCoinbase();
 
-    console.log('buffer: ', Buffer);
-    console.log('keccak:',keccak_256(new Buffer("0001","hex")))
 
     THROWS = {
       "rock": new Buffer("0000000000000000000000000000000000000000000000000000000000000001","hex"),
@@ -23,16 +20,18 @@ window.addEventListener('load', function(){
       "scissors": new Buffer("0000000000000000000000000000000000000000000000000000000000000003","hex")
     }
 
-    // t = new Buffer("0000000000000000000000000000000000000000000000000000000000000001","hex");
-    // s = new Buffer("5064b09d713b0348f248cf83fedef649ecdc1121d0913a67adb84438d1cb8422","hex");
-    // myCommit = keccak_256(Buffer.concat([t,s]))
     submitCommit1 = function(){
-      var t =  THROWS[document.getElementById('player_1_gamethrow').value];
+      var form_elements = document.getElementById('player_1_gamethrow').elements;
+      var selectedThrow = form_elements['p_1_radio'].value;
+      var t =  THROWS[selectedThrow];
       var s =  createSecret(document.getElementById('player_1_secret').value);
-      var commitHash = createCommitHash(t,s)
-      rockPaperScissors.playerOneCommit(commitHash, {from: coinbase, value:"1000000000000000"}, function(e,r){
-        console.log(e,r);                                                   
-      })
+      if(t){
+        var p1Commit = keccak_256(Buffer.concat([t,s]))
+        rockPaperScissors.playerOneCommit(p1Commit, {from: coinbase, value:"1000000000000000"}, function(e,response){
+          console.log(e,response);                                                   
+        })
+      }
+      
 
     }
     submitReveal1 = function(){
