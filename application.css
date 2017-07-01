@@ -1,3 +1,33 @@
+* {
+ font-family: Arial;
+ color: #FEFEFE;
+}
 .hidden{
 	display: none;
+}
+#main-content {
+    width: 80%;
+    margin: 0 auto;
+    background-color: #4F6879;
+    padding: 20px;
+}
+button {
+	background-color: #EF2870; /* Green */
+	    border: none;
+	    color: #FEFEFE;
+	    padding: 4px 8px;
+	    text-align: center;
+	    text-decoration: none;
+	    display: inline-block;
+	    font-size: 16px;
+}
+input {
+	padding: 4px 8px;
+}
+h3 {
+	background-color: #EF2870;
+	color: #FEFEFE;
+	margin-left: -20px;
+	margin-right: -20px;
+	padding: 4px 20px 4px 20px;
 }
