@@ -17,4 +17,4 @@ I also came to a better understanding of the pace of information transfer, which
 
 ## Acknowledgments
 
-* Hat-tip to Zac Mitton for being an awesome guy. He got me out of the weeds when debugging the way web3 was transmitting the user input to the blockchain. Thank you-
+* Hat-tip to[@zmitton](https://github.com/zmitton) for getting me out of the weeds when debugging the way web3 was transmitting the user input to the blockchain. Thank you-
