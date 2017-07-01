@@ -10,6 +10,12 @@ My main takeaway from this project was a better understanding of the flow of inf
 
 I also came to a better understanding of the pace of information transfer, which is much different than when using traditional databases. All calls for getting and setting information happen asynchronously, and waiting for responses from the blockchain computer forces a deliberate slow dance of information. 
 
+## How to view
+
+You will need Chrome, with the [Metamask extension](https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=en) pointed to the Rinkeby test net.
+
+Then follow this [Github Pages link.](https://adamscottbaxter.github.io/rock_paper_ether/)
+
 ## Further development goals
 * Rebuild the front end using node.js
 * Redesign the contract to be able to generate multiple games
