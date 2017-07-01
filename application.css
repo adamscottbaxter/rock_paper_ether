@@ -8,11 +8,11 @@
 #main-content {
     width: 80%;
     margin: 0 auto;
-    background-color: #4F6879;
+    background-color: #474F4E;
     padding: 20px;
 }
 button {
-	background-color: #EF2870; /* Green */
+	background-color: #E3007C;
 	    border: none;
 	    color: #FEFEFE;
 	    padding: 4px 8px;
@@ -25,7 +25,7 @@ input {
 	padding: 4px 8px;
 }
 h3 {
-	background-color: #EF2870;
+	background-color: #E3007C;
 	color: #FEFEFE;
 	margin-left: -20px;
 	margin-right: -20px;
