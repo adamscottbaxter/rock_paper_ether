@@ -23,4 +23,4 @@ Then follow this [Github Pages link.](https://adamscottbaxter.github.io/rock_pap
 
 ## Acknowledgments
 
-* Hat-tip to[@zmitton](https://github.com/zmitton) for getting me out of the weeds when debugging the way web3 was transmitting the user input to the blockchain. Thank you-
+* Hat-tip to [@zmitton](https://github.com/zmitton) for getting me out of the weeds when debugging the way web3 was transmitting the user input to the blockchain. Thank you-
